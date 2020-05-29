@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>XmlDB_Service</RootNamespace>
+    <ApplicationIcon>ICPSI-Logo.ico</ApplicationIcon>
+    <Company>ICPSI</Company>
+    <Authors>JunWei Liu</Authors>
+    <Version>1.0.3</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySqlConnector" Version="0.66.0" />
+    <PackageReference Include="Topshelf" Version="4.2.1" />
+  </ItemGroup>
+
+</Project>
