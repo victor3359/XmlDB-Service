@@ -42,7 +42,7 @@ namespace XmlDB_Service
             XmlDocument xmlDoc_fire = new XmlDocument();
             XmlDocument xmlDoc_solar = new XmlDocument();
             XmlDocument xmlDoc_wind = new XmlDocument();
-            double totalFire = 0, totalSolar = 0, totalWind = 0;
+            double totalFire = 0, totalSolar = 0, totalWind = 0, totalTashan = 0;
             XmlNode xn;
             string xmlStr;
 
@@ -132,16 +132,19 @@ namespace XmlDB_Service
             Console.WriteLine(@"Updating Data to Database...");
             for (int i = 0; i < firePower.Count; i++)
             {
-                string valueString;
+                string valueString, valueStr;
                 if (i <= 9)
                 {
-                    valueString = $"'火力','Value{i + 1}','塔山 {i + 1}','{firePower[i]}'";
+                    valueStr = $"Value{i + 1}";
+                    valueString = $"'火力','{valueStr}','塔山 {i + 1}','{firePower[i]}'";
+                    totalTashan += Convert.ToDouble(firePower[i]);
                 }
                 else
                 {
-                    valueString = $"'火力','Value{i + 1}','夏興 {i + 1}','{firePower[i]}'";
+                    valueStr = $"Value{i - 9}";
+                    valueString = $"'火力','{valueStr}','夏興 {i - 9}','{firePower[i]}'";
                 }
-                saveToSql(valueString, $"Value{i + 1}", firePower[i], @"火力");
+                saveToSql(valueString, valueStr, firePower[i], @"火力");
                 totalFire += Convert.ToDouble(firePower[i]);
             }
             for(int i = 0; i < solarPower.Count; i++)
@@ -181,6 +184,8 @@ namespace XmlDB_Service
                     {
                         cmd.Connection = conn;
                         cmd.CommandText = $"INSERT INTO totalfire(power) VALUES ('{totalFire}')";
+                        cmd.ExecuteNonQuery();
+                        cmd.CommandText = $"INSERT INTO totaltashan(power) VALUES ('{totalTashan}')";
                         cmd.ExecuteNonQuery();
                         cmd.CommandText = $"INSERT INTO totalsolar(power) VALUES ('{totalSolar}')";
                         cmd.ExecuteNonQuery();
